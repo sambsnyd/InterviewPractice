@@ -76,4 +76,15 @@ public class RecursionAndMemoizationTests {
 //        ArrayTable<Integer,Integer,Boolean> trapGrid =
 //                ArrayTable.create(Lists.newArrayList(0,1,2,3,4), Lists.newArrayList(0,1,2,3,4));
     }
+
+    @Test
+    void findMagicIndexTest() {
+        Assertions.assertEquals(0, problems.findMagicIndex(new int[]{ 0 }));
+        Assertions.assertEquals(2, problems.findMagicIndex(new int[]{-10,0,2,3,4}));
+        Assertions.assertEquals(-1, problems.findMagicIndex(new int[]{}));
+        Assertions.assertEquals(2, problems.findMagicIndex(new int[]{-1,0,2,4,8,16,32,64,128}));
+        Assertions.assertEquals(1, problems.findMagicIndex(new int[]{1,1,1,1}));
+        Assertions.assertEquals(2, problems.findMagicIndex(new int[]{0,0,2,2,3,3}));
+        Assertions.assertEquals(0, problems.findMagicIndex(new int[]{0,0,1,10,10}));
+    }
 }

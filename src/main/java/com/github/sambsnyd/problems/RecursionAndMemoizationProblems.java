@@ -143,12 +143,12 @@ public class RecursionAndMemoizationProblems {
                 break;
             }
 
-            GridPoint rightCandiate = point.right();
-            if(!evaluated.contains(rightCandiate) &&
-                rightCandiate.column <= endingPosition.column &&
-                grid.at(rightCandiate.row, rightCandiate.column)) {
-                toEvaluate.add(rightCandiate);
-                pathToOrigin.put(rightCandiate, point);
+            GridPoint rightCandidate = point.right();
+            if(!evaluated.contains(rightCandidate) &&
+                rightCandidate.column <= endingPosition.column &&
+                grid.at(rightCandidate.row, rightCandidate.column)) {
+                toEvaluate.add(rightCandidate);
+                pathToOrigin.put(rightCandidate, point);
             }
 
             GridPoint downCandidate = point.down();
@@ -172,4 +172,57 @@ public class RecursionAndMemoizationProblems {
         }
         return result;
     }
+
+    /**
+     * Given a sorted array of integers "A", find an index "i" such that A[i] == i
+     * Returns -1 if no such magic index exists
+     *
+     * e.g.:
+     *  findMagicIndex([0]) -> 0
+     *  findMagicIndex([-10,0,2,3,4]) -> 2
+     *  findMagicIndex([1,2,3,4,5]) -> -1
+     *  findMagicIndex([1,1,1,1,2,10,10,10,10]) -> 1
+     *
+     *  Implemented with a tweaked binary search starting from the middle element
+     *
+     *  So in this array A or length 9:
+     *   i=[0,1,2,3,4, 5, 6, 7, 8]
+     *   A=[1,1,1,1,2,10,10,10,10]
+     *   mid = 4
+     *   A[mid]==2, 2 < 4 so everything to the right still needs to be considered
+     *                  but A[3] does not since it must hold a value <=2 so it can't be magical
+     *   So then recursively apply on A[0..A[mid]-mid] and A[mid+1..A.length]
+     */
+    public int findMagicIndex(int[] sorted) {
+        Preconditions.checkNotNull(sorted);
+        // Define the empty list to be valid input with no magic index
+        if(sorted.length == 0) {
+            return -1;
+        }
+
+        return findMagicIndex(sorted, 0, sorted.length-1);
+    }
+    private int findMagicIndex(int[] A, int lowerBound, int upperBound) {
+        if(lowerBound > upperBound) {
+            // The bounds will meet when every element has been examined and found non-magical
+            return -1;
+        }
+        int midIndex = (upperBound + lowerBound)/2;
+        int midValue = A[midIndex];
+
+        if(midValue == midIndex) {
+            return midIndex;
+        }
+
+        // search left side
+        int candidate = findMagicIndex(A, lowerBound, Math.min(midIndex-1, midValue));
+        if(candidate != -1) {
+            return candidate;
+        }
+
+        // Search right side
+        return findMagicIndex(A,Math.max(midIndex+1, midValue), upperBound);
+    }
+
+
 }

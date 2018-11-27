@@ -224,5 +224,33 @@ public class RecursionAndMemoizationProblems {
         return findMagicIndex(A,Math.max(midIndex+1, midValue), upperBound);
     }
 
+    /**
+     * Given a set S return a new set that contains all possible subsets of S
+     * All sets contain the empty set
+     * powerSet({}) -> {{}}
+     * powerSet({1}) -> {{1},{}}
+     * powerSet({1,2}) -> {{1,2},{1},[2},{}}
+     * powerSet({1,2,3}) -> {{1,2,3},{1,2},{1,3},{2,3},{1},{2},{3},{}}
+     */
+    public <T> Set<Set<T>> powerSet(Set<T> input) {
+        Preconditions.checkNotNull(input);
 
+        // Defensive copy so we can mutate the input without concern for side-effects
+        return powerSet(new HashSet<>(), new HashSet<>(input));
+    }
+    private <T> Set<Set<T>> powerSet(Set<Set<T>> aggregator, Set<T> input) {
+        if(input.size() == 0) {
+            // The powerset of any set contains the empty set
+            aggregator.add(new HashSet<>());
+            return aggregator;
+        }
+
+        aggregator.add(new HashSet<>(input));
+        for(T item : input) {
+            Set<T> withoutItem = new HashSet<>(input);
+            withoutItem.remove(item);
+            powerSet(aggregator, withoutItem);
+        }
+        return aggregator;
+    }
 }

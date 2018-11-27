@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static com.github.sambsnyd.problems.RecursionAndMemoizationProblems.GridPoint;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RecursionAndMemoizationTests {
 
@@ -86,5 +88,13 @@ public class RecursionAndMemoizationTests {
         Assertions.assertEquals(1, problems.findMagicIndex(new int[]{1,1,1,1}));
         Assertions.assertEquals(2, problems.findMagicIndex(new int[]{0,0,2,2,3,3}));
         Assertions.assertEquals(0, problems.findMagicIndex(new int[]{0,0,1,10,10}));
+    }
+
+    @Test
+    void powerSetTest() {
+        Assertions.assertEquals(Set.of(Set.of()), problems.powerSet(Set.of()));
+        Assertions.assertEquals(Set.of(Set.of(1), Set.of()), problems.powerSet(Set.of(1)));
+        Assertions.assertEquals(Set.of(Set.of(1,2),Set.of(1), Set.of(2),Set.of()), problems.powerSet(Set.of(1,2)));
+        Assertions.assertEquals(Set.of(Set.of(1,2,3),Set.of(1,2),Set.of(1,3),Set.of(2,3),Set.of(1),Set.of(2),Set.of(3),Set.of()), problems.powerSet(Set.of(1,2,3)));
     }
 }
